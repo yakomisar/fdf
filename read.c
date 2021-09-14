@@ -72,7 +72,7 @@ int get_height(char *filename)
 	char	*line;
 
 	height = 0;
-    fd = fd = open(filename, O_RDONLY);
+    fd = open(filename, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
 		height++;
@@ -89,7 +89,7 @@ int get_width(char *filename)
 	char	*line;
 
 	width = 0;
-    fd = fd = open(filename, O_RDONLY);
+    fd = open(filename, O_RDONLY);
 	get_next_line(fd, &line);
 	width = ft_split(line, ' ');
 	free(line);
@@ -97,10 +97,27 @@ int get_width(char *filename)
 	return (width);
 }
 
+void	ft_array(int *z_line, char *line)
+{
+	int		i;
+	char	**nums;
+
+	nums = ft_split(line, ' ');
+	i = 0;
+	while (nums[i] != '\0')
+	{
+		z_line[i] = ft_atoi(nums[i]);
+		free(nums[i]);
+		i++;
+	}
+	free(nums);
+}
+
 void    read_file(char *filename, fdf *data)
 {
-	int	i;
-	int	fd;
+	int		i;
+	int		fd;
+	char	*line;
 
     data->height = get_height(filename);
 	data->width = get_width(filename);
@@ -113,5 +130,12 @@ void    read_file(char *filename, fdf *data)
 	}
 	i = 0;
 	fd = open(filename, O_RDONLY);
-	
+	while (get_next_line(fd, *line))
+	{
+		ft_array(data->z_line, line);
+		free(line);
+		i++;
+	}
+	close(fd);
+	data->z_matrix[i] = NULL;
 }
