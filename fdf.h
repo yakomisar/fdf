@@ -5,6 +5,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 typedef struct
 {
@@ -19,5 +20,6 @@ typedef struct
 
 void	read_file(char *filename, fdf *data);
 int		get_next_line(int fd, char **line);
+int		ft_atoi(const char *str);
 
 #endif

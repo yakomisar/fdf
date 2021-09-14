@@ -104,7 +104,7 @@ void	ft_array(int *z_line, char *line)
 
 	nums = ft_split(line, ' ');
 	i = 0;
-	while (nums[i] != '\0')
+	while (nums[i])
 	{
 		z_line[i] = ft_atoi(nums[i]);
 		free(nums[i]);
@@ -130,7 +130,7 @@ void    read_file(char *filename, fdf *data)
 	}
 	i = 0;
 	fd = open(filename, O_RDONLY);
-	while (get_next_line(fd, *line))
+	while (get_next_line(fd, &line))
 	{
 		ft_array(data->z_line, line);
 		free(line);

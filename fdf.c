@@ -4,6 +4,11 @@ int main(int argc, char **argv)
 {
     fdf *data;
 
+    if (argc != 2)
+    {
+        return (1);
+    }
+    
     data = (fdf*)malloc(sizeof(fdf));
     read_file(argv[1], data);
     
@@ -22,7 +27,5 @@ int main(int argc, char **argv)
         i++;
         printf("\n");
     }
-    
-
     return (0);
 }
