@@ -1,4 +1,4 @@
-#include <fdf.h>
+#include "fdf.h"
 
 static int	ft_count(const char *s, char c)
 {
@@ -7,13 +7,13 @@ static int	ft_count(const char *s, char c)
 
 	i = 0;
 	counter = 0;
-	while (s[i] != '\0')
+	while (s[i])
 	{
 		while (s[i] == c)
 			i++;
-		if (s[i] != '\0')
+		if (s[i])
 			counter++;
-		while ((s[i] != '\0') && (s[i] != c))
+		while ((s[i]) && (s[i] != c))
 			i++;
 	}
 	return (counter);
@@ -28,7 +28,7 @@ static char	*ft_copy(const char *str, size_t n)
 	if (new == NULL)
 		return (NULL);
 	i = 0;
-	while ((str[i] != '\0') && (i < n))
+	while ((str[i]) && (i < n))
 	{
 		new[i] = str[i];
 		i++;
@@ -73,7 +73,7 @@ int get_height(char *filename)
 
 	height = 0;
     fd = open(filename, O_RDONLY);
-	while (get_next_line(fd, &line))
+	while (get_next_line(fd, &line) > 0)
 	{
 		height++;
 		free(line);
@@ -90,9 +90,11 @@ int get_width(char *filename)
 
 	width = 0;
     fd = open(filename, O_RDONLY);
-	get_next_line(fd, &line);
-	width = ft_split(line, ' ');
-	free(line);
+	while (get_next_line(fd, &line) > 0)
+	{
+		width = ft_count(line, ' ');	
+		free(line);
+	}
 	close(fd);
 	return (width);
 }
@@ -119,23 +121,34 @@ void    read_file(char *filename, fdf *data)
 	int		fd;
 	char	*line;
 
-    data->height = get_height(filename);
+	printf("Trying to get height and weight:\n");
+	printf("Filename %s\n", filename);
+	data->height = get_height(filename);
+	printf("Height: %d\n", data->height);
 	data->width = get_width(filename);
+	printf("Width: %d\n", data->width);
+
 	i = 0;
-	data->z_matrix = (int **)malloc(sizeof(int *) * (data->height) + 1);
+	data->z_matrix = (int **)malloc(sizeof(int *) * ((data->height) + 1));
+	if (!data->z_matrix)
+	{
+		printf("Unable to allocate memory\n");
+		return ;
+	}
 	while (i <= data->height)
 	{
-		data->z_matrix[i] = (int *)malloc(sizeof(int) * data->width + 1);
+		data->z_matrix[i] = (int *)malloc(sizeof(int) * ((data->width) + 1));
 		i++;	
 	}
 	i = 0;
 	fd = open(filename, O_RDONLY);
 	while (get_next_line(fd, &line))
 	{
-		ft_array(data->z_line, line);
+		ft_array(data->z_matrix[i], line);
 		free(line);
 		i++;
 	}
 	close(fd);
+	printf("Position 2-2: %d\n", data->z_matrix[2][2]);
 	data->z_matrix[i] = NULL;
 }

@@ -7,15 +7,13 @@
 # include <fcntl.h>
 # include <stdio.h>
 
-typedef struct
+typedef struct s_fdf
 {
 	int	width;
 	int	height;
 	int	z_line;
 	int	**z_matrix;
-
-	void	*x_ptr;
-	void	*y_ptr;
+	
 }   fdf;
 
 void	read_file(char *filename, fdf *data);

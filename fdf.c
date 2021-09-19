@@ -4,12 +4,15 @@ int main(int argc, char **argv)
 {
     fdf *data;
 
-    if (argc != 2)
-    {
-        return (1);
-    }
-    
+    (void)argc;
+
+    printf("Trying malloc space for data:\n");
     data = (fdf*)malloc(sizeof(fdf));
+    if (!data)
+    {
+        printf("Error!!");
+    }
+    printf("Go to read function:\n");
     read_file(argv[1], data);
     
     int i;
