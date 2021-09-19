@@ -1,5 +1,18 @@
 #include "fdf.h"
 
+// void    dynamic_array_free(fdf *data, int n)
+// {
+//     int i;
+
+//     i = 0;
+//     while (i < n)
+//     {
+//         free(data->z_matrix[i]);
+//         i++;
+//     }
+// 	free(data);
+// }
+
 int main(int argc, char **argv)
 {
     fdf *data;
@@ -30,5 +43,7 @@ int main(int argc, char **argv)
         i++;
         printf("\n");
     }
+	// if (data)
+		//dynamic_array_free(data, 11);
     return (0);
 }

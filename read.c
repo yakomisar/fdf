@@ -121,7 +121,6 @@ void    read_file(char *filename, fdf *data)
 	int		fd;
 	char	*line;
 
-	printf("Trying to get height and weight:\n");
 	printf("Filename %s\n", filename);
 	data->height = get_height(filename);
 	printf("Height: %d\n", data->height);
