@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <math.h>
 # include "minilibx_macos/mlx.h"
 
 typedef struct s_fdf
