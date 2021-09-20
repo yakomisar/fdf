@@ -25,5 +25,6 @@ void	read_file(char *filename, fdf *data);
 void    dda_line(int x1, int y1, int x2, int y2, fdf *data);
 int		get_next_line(int fd, char **line);
 int		ft_atoi(const char *str);
+void	draw_map(fdf *data);
 
 #endif

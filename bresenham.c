@@ -1,21 +1,5 @@
 #include "fdf.h"
 
-// void    bresenham(int x1, int y1, int x2, int y2, fdf *data)
-// {
-//     float	delta_x;
-//     float	delta_y;
-// 	float	distance;
-
-//     delta_x = x2 - x1;
-//     delta_y = y2 - y1;
-// 	distance = 2 * delta_y - delta_x;
-
-// 	while (x1 <= x2)
-// 	{
-// 		/* code */
-// 	}
-// }
-
 void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 {
 	int		delta_x;
@@ -27,6 +11,10 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
     float   x;
     float   y;
 
+	x1 *= 20;
+	x2 *= 20;
+	y1 *= 20;
+	y2 *= 20;
 	delta_x = x2 - x1;
 	delta_y = y2 - y1;
 	i = 0;
@@ -45,5 +33,26 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 		x = x + x_inc;
 		y = y + y_inc;
 		i++;
+	}
+}
+
+void	draw_map(fdf *data)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < data->height)
+	{
+		x = 0;
+		while (x < data->width)
+		{
+			if (x != data->width - 1)
+				dda_line(x, y, x + 1, y, data);	
+			if (y != data->height - 1)
+				dda_line(x, y, x, y + 1, data);
+			x++;
+		}
+		y++;
 	}
 }

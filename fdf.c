@@ -42,11 +42,11 @@ int main(int argc, char **argv)
         printf("Error!!");
     }
     printf("Go to read function:\n");
-    //read_file(argv[1], data);
+    read_file(argv[1], data);
 
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, 1000, 1000, argv[1]);
-	dda_line(10, 10, 600, 300, data);
+	draw_map(data);
 	mlx_hook(data->window, 2, 1L<<0, close_window, data);
 	mlx_loop(data->mlx);
 	// if (data)
