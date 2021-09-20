@@ -1,22 +1,8 @@
-#include "fdf.h"
+# include <stdlib.h>
+# include <stdio.h>
+# include <math.h>
 
-// void    bresenham(int x1, int y1, int x2, int y2, fdf *data)
-// {
-//     float	delta_x;
-//     float	delta_y;
-// 	float	distance;
-
-//     delta_x = x2 - x1;
-//     delta_y = y2 - y1;
-// 	distance = 2 * delta_y - delta_x;
-
-// 	while (x1 <= x2)
-// 	{
-// 		/* code */
-// 	}
-// }
-
-void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
+void    dda_line(int x1, int y1, int x2, int y2)
 {
 	int		delta_x;
 	int		delta_y;
@@ -39,11 +25,21 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 	
 	x_inc = (float)delta_x / (float)step;
 	y_inc = (float)delta_y / (float)step;
+    printf("x_inc = %f\n", x_inc);
+    printf("y_inc = %f\n", y_inc);
 	while (i <= step)
 	{
-		mlx_pixel_put(data->mlx, data->window, (int)x, (int)y, 0x00FF0000);
+		printf("x - %d   | y - %d\n", (int)x, (int)y);
 		x = x + x_inc;
 		y = y + y_inc;
+        printf("x - %f\n", x);
+        printf("y - %f\n", y);
 		i++;
 	}
+}
+
+int main(void)
+{
+    dda_line(5,4,12,7);
+    return (0);
 }
