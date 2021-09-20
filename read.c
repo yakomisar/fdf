@@ -128,15 +128,15 @@ void    read_file(char *filename, fdf *data)
 	printf("Width: %d\n", data->width);
 
 	i = 0;
-	data->z_matrix = (int **)malloc(sizeof(int *) * ((data->height) + 1));
+	data->z_matrix = (int **)malloc(sizeof(int *) * data->height);
 	if (!data->z_matrix)
 	{
 		printf("Unable to allocate memory\n");
 		return ;
 	}
-	while (i <= data->height)
+	while (i < data->height)
 	{
-		data->z_matrix[i] = (int *)malloc(sizeof(int) * ((data->width) + 1));
+		data->z_matrix[i] = (int *)malloc(sizeof(int) * data->width);
 		i++;	
 	}
 	i = 0;
@@ -149,5 +149,4 @@ void    read_file(char *filename, fdf *data)
 	}
 	close(fd);
 	printf("Position 2-2: %d\n", data->z_matrix[2][2]);
-	data->z_matrix[i] = NULL;
 }

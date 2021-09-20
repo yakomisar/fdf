@@ -13,36 +13,41 @@
 // 	free(data);
 // }
 
+int	close_window(int keycode, fdf *data)
+{
+	if (keycode == 53)
+	{
+		printf("ESC pressed");
+		mlx_destroy_window(data->mlx, data->window);
+		exit(0);
+	}
+	return (0);
+}
+
 int main(int argc, char **argv)
 {
     fdf *data;
 
-    (void)argc;
-
-    printf("Trying malloc space for data:\n");
+	if (argc != 2)
+	{
+		printf("ERROR: Incorrect number of arguments..\n");
+		printf("HINT: Please use the following format: ");
+		printf("./[Program name] [path of the map]");
+		return (1);
+	}
+	
     data = (fdf*)malloc(sizeof(fdf));
     if (!data)
     {
         printf("Error!!");
     }
     printf("Go to read function:\n");
-    read_file(argv[1], data);
-    
-    int i;
-    int j;
+    //read_file(argv[1], data);
 
-    i = 0;
-    while (i < data->height)
-    {
-        j = 0;
-        while (j < data->width)
-        {
-            printf("%3d ", data->z_matrix[i][j]);
-            j++;
-        }
-        i++;
-        printf("\n");
-    }
+	data->mlx = mlx_init();
+	data->window = mlx_new_window(data->mlx, 1000, 1000, argv[1]);
+	mlx_hook(data->window, 2, 1L<<0, close_window, data);
+	mlx_loop(data->mlx);
 	// if (data)
 		//dynamic_array_free(data, 11);
     return (0);

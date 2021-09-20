@@ -6,6 +6,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include "minilibx_macos/mlx.h"
 
 typedef struct s_fdf
 {
@@ -13,6 +14,9 @@ typedef struct s_fdf
 	int	height;
 	int	z_line;
 	int	**z_matrix;
+
+	void	*mlx;
+	void	*window;
 	
 }   fdf;
 
