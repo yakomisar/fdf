@@ -13,14 +13,56 @@
 // 	free(data);
 // }
 
-int	close_window(int keycode, fdf *data)
+void	close_window(fdf *data)
 {
+	mlx_destroy_window(data->mlx, data->window);
+	exit(0);
+}
+
+void	shift_window(int key, fdf *data)
+{
+	if (key == 126)
+		data->shift_y -= 10;
+	if (key == 125)
+		data->shift_y += 10;
+	if (key == 124)
+		data->shift_x += 10;
+	if (key == 123)
+		data->shift_x -= 10;
+	mlx_clear_window(data->mlx, data->window);
+	draw_map(data);
+}
+
+void	zoom_window(int key, fdf *data)
+{
+	if (key == 27 && data->zoom != 10)
+		data->zoom -= 10;
+	if (key == 24)
+		data->zoom += 10;
+	mlx_clear_window(data->mlx, data->window);
+	draw_map(data);
+}
+
+void	rotate_window(int key, fdf *data)
+{
+	if (key == 18)
+		data->angle -= 0.1;
+	if (key == 19)
+		data->angle += 0.1;
+	mlx_clear_window(data->mlx, data->window);
+	draw_map(data);
+}
+
+int	window_action(int keycode, fdf *data)
+{
+	if (keycode == 18 || keycode == 19)
+		rotate_window(keycode, data);
+	if (keycode == 27 || keycode == 24)
+		zoom_window(keycode, data);
 	if (keycode == 53)
-	{
-		printf("ESC pressed");
-		mlx_destroy_window(data->mlx, data->window);
-		exit(0);
-	}
+		close_window(data);
+	if (keycode == 126 || keycode == 125 || keycode == 124 || keycode == 123)
+		shift_window(keycode, data);
 	return (0);
 }
 
@@ -35,19 +77,20 @@ int main(int argc, char **argv)
 		printf("./[Program name] [path of the map]");
 		return (1);
 	}
-	
     data = (fdf*)malloc(sizeof(fdf));
     if (!data)
     {
         printf("Error!!");
     }
-    printf("Go to read function:\n");
     read_file(argv[1], data);
-
+	data->shift_x = 10;
+	data->shift_y = 10;
+	data->zoom = 10;
+	data->angle = 0.523599;
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, 1000, 1000, argv[1]);
 	draw_map(data);
-	mlx_hook(data->window, 2, 1L<<0, close_window, data);
+	mlx_hook(data->window, 2, 1L<<0, window_action, data);
 	mlx_loop(data->mlx);
 	// if (data)
 		//dynamic_array_free(data, 11);

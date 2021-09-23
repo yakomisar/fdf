@@ -13,8 +13,11 @@ typedef struct s_fdf
 {
 	int	width;
 	int	height;
-	int	z_line;
+	int	shift_x;
+	int	shift_y;
+	int	zoom;
 	int	**z_matrix;
+	float	angle;
 
 	void	*mlx;
 	void	*window;

@@ -148,5 +148,4 @@ void    read_file(char *filename, fdf *data)
 		i++;
 	}
 	close(fd);
-	printf("Position 2-2: %d\n", data->z_matrix[2][2]);
 }
