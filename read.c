@@ -6,7 +6,7 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:38:26 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 19:38:28 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/09/24 19:49:49 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ char	**ft_split(char const *s, char c)
 	return (new);
 }
 
-int get_height(char *filename)
+int	get_height(char *filename)
 {
-    int		fd;
+	int		fd;
 	int		height;
 	char	*line;
 
 	height = 0;
-    fd = open(filename, O_RDONLY);
+	fd = open(filename, O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		height++;
@@ -94,7 +94,7 @@ int get_height(char *filename)
 	return (height);
 }
 
-int get_width(char *filename)
+int	get_width(char *filename)
 {
     int		fd;
 	int		width;
@@ -127,7 +127,7 @@ void	ft_array(int *z_line, char *line)
 	free(nums);
 }
 
-void    read_file(char *filename, fdf *data)
+void	read_file(char *filename, fdf *data)
 {
 	int		i;
 	int		fd;

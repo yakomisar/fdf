@@ -6,7 +6,7 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:37:59 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 19:38:01 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/09/24 19:55:17 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@
 //     }
 // 	free(data);
 // }
-
-void	close_window(fdf *data)
-{
-	mlx_destroy_window(data->mlx, data->window);
-	exit(0);
-}
 
 void	shift_window(int key, fdf *data)
 {
@@ -72,15 +66,18 @@ int	window_action(int keycode, fdf *data)
 	if (keycode == 27 || keycode == 24)
 		zoom_window(keycode, data);
 	if (keycode == 53)
-		close_window(data);
+	{
+		mlx_destroy_window(data->mlx, data->window);
+		exit(0);
+	}
 	if (keycode == 126 || keycode == 125 || keycode == 124 || keycode == 123)
 		shift_window(keycode, data);
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-    fdf *data;
+    fdf	*data;
 
 	if (argc != 2)
 	{
@@ -90,11 +87,9 @@ int main(int argc, char **argv)
 		return (1);
 	}
     data = (fdf*)malloc(sizeof(fdf));
-    if (!data)
-    {
-        printf("Error!!");
-    }
-    read_file(argv[1], data);
+    if(!data)
+		printf("Error!!");
+	read_file(argv[1], data);
 	data->shift_x = 10;
 	data->shift_y = 10;
 	data->zoom = 10;
@@ -106,5 +101,5 @@ int main(int argc, char **argv)
 	mlx_loop(data->mlx);
 	// if (data)
 		//dynamic_array_free(data, 11);
-    return (0);
+	return (0);
 }

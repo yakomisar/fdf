@@ -6,19 +6,19 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:37:49 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 19:37:56 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/09/24 19:45:35 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void iso(int *x, int *y, int z, float angle)
+static void	iso(int *x, int *y, int z, float angle)
 {
-    int previous_x;
-    int previous_y;
-
-    previous_x = *x;
-    previous_y = *y;
+	int		previous_x;
+    int		previous_y;
+	
+	previous_x = *x;
+	previous_y = *y;
     *x = (previous_x - previous_y) * cos(angle);
     *y = -z + (previous_x + previous_y) * sin(angle);
 }
@@ -57,6 +57,7 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 		step = abs(delta_x);
 	else
 		step = abs(delta_y);
+	
 	x_inc = (float)delta_x / (float)step;
 	y_inc = (float)delta_y / (float)step;
 	while (i <= step)
