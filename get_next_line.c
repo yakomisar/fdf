@@ -6,7 +6,7 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:38:19 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 19:51:26 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/09/24 20:26:09 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,27 +154,74 @@ int	save_line(char **line, char **box)
 	return (result);
 }
 
+// int	get_next_line(int fd, char **line)
+// {
+// 	char		buf[BUFFER_SIZE + 1];
+// 	static char	*box;
+// 	char		*position_n;
+// 	int			file;
+
+// 	if (fd < 0 || !line || BUFFER_SIZE < 1)
+// 		return (-1);
+// 	file = 1;
+// 	while (file > 0)
+// 	{
+// 		file = read(fd, buf, BUFFER_SIZE);
+// 		if (file >= 0)
+// 			buf[file] = '\0';
+// 		else
+// 			return (-1);
+// 		box = ft_strjoin(box, buf);
+// 		position_n = ft_strchr(box, '\n');
+// 		if (position_n)
+// 			break ;
+// 	}
+// 	return (save_line(line, &box));
+// }
+
+static void	ft_finish(char *tmp, char **line, char c, int i)
+{
+	tmp[i] = c;
+	tmp[i + 1] = 0;
+	free(*line);
+	*line = tmp;
+}
+
+int	ft_exit(char **line)
+{
+	free(*line);
+	return (-1);	
+}
+
+static void	ft_fill(char *tmp, char **line, char c, int *i)
+{
+	tmp[*i] = (*line)[*i];
+	(*i)++;
+}
+
 int	get_next_line(int fd, char **line)
 {
-	char		buf[BUFFER_SIZE + 1];
-	static char	*box;
-	char		*position_n;
-	int			file;
+	int		i;
+	int		len;
+	int		r;
+	char	c;
+	char	*tmp;
 
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
+	r = 0;
+	len = 1;
+	*line = malloc(len);
+	(*line)[0] = 0;
+	if (!line)
 		return (-1);
-	file = 1;
-	while (file > 0)
+	while ((r = read(fd, &c, 1)) && len++ && c != '\n')
 	{
-		file = read(fd, buf, BUFFER_SIZE);
-		if (file >= 0)
-			buf[file] = '\0';
-		else
-			return (-1);
-		box = ft_strjoin(box, buf);
-		position_n = ft_strchr(box, '\n');
-		if (position_n)
-			break ;
+		tmp = malloc(len);
+		if (!tmp)
+			ft_exit(line);
+		i = 0;
+		while (i < len - 2)
+			ft_fill(tmp, line, c, &i);
+		ft_finish(tmp, line, c, i);
 	}
-	return (save_line(line, &box));
+	return (r);
 }
