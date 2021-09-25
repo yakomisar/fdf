@@ -6,7 +6,7 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:38:26 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 19:49:49 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/09/25 11:40:07 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,6 @@ void	read_file(char *filename, fdf *data)
 		free(line);
 		i++;
 	}
+	free(line);
 	close(fd);
 }

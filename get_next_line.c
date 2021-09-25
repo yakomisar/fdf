@@ -6,7 +6,7 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:38:19 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 20:26:09 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/09/25 11:38:11 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,119 +40,119 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-size_t	ft_strlen(char *s)
-{
-	int	i;
+// size_t	ft_strlen(char *s)
+// {
+// 	int	i;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	if (!s)
+// 		return (0);
+// 	while (s[i])
+// 		i++;
+// 	return (i);
+// }
 
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
+// char	*ft_strchr(const char *s, int c)
+// {
+// 	int	i;
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if (c == 0)
-		return ((char *)&s[i]);
-	return (NULL);
-}
+// 	i = 0;
+// 	while (s[i] != '\0')
+// 	{
+// 		if (s[i] == (char)c)
+// 			return ((char *)&s[i]);
+// 		i++;
+// 	}
+// 	if (c == 0)
+// 		return ((char *)&s[i]);
+// 	return (NULL);
+// }
 
-char	*ft_strdup(char *s1)
-{
-	char	*new;
-	size_t	counter;
-	size_t	len;
+// char	*ft_strdup(char *s1)
+// {
+// 	char	*new;
+// 	size_t	counter;
+// 	size_t	len;
 
-	len = ft_strlen(s1) + 1;
-	counter = 0;
-	new = (char *)malloc(sizeof(char) * len);
-	if (new == NULL)
-		return (NULL);
-	while (s1[counter] != '\0')
-	{
-		new[counter] = s1[counter];
-		counter++;
-	}
-	new[counter] = '\0';
-	return (new);
-}
+// 	len = ft_strlen(s1) + 1;
+// 	counter = 0;
+// 	new = (char *)malloc(sizeof(char) * len);
+// 	if (new == NULL)
+// 		return (NULL);
+// 	while (s1[counter] != '\0')
+// 	{
+// 		new[counter] = s1[counter];
+// 		counter++;
+// 	}
+// 	new[counter] = '\0';
+// 	return (new);
+// }
 
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	char	*res;
+// char	*ft_strjoin(char *s1, char *s2)
+// {
+// 	int		i;
+// 	int		j;
+// 	char	*res;
 
-	i = 0;
-	j = 0;
-	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!res)
-		return (NULL);
-	if (s1)
-	{
-		while (s1[i])
-			res[j++] = s1[i++];
-	}
-	i = 0;
-	if (s2)
-	{
-		while (s2[i])
-			res[j++] = s2[i++];
-	}
-	res[j] = '\0';
-	if (s1)
-		free(s1);
-	return (res);
-}
+// 	i = 0;
+// 	j = 0;
+// 	res = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+// 	if (!res)
+// 		return (NULL);
+// 	if (s1)
+// 	{
+// 		while (s1[i])
+// 			res[j++] = s1[i++];
+// 	}
+// 	i = 0;
+// 	if (s2)
+// 	{
+// 		while (s2[i])
+// 			res[j++] = s2[i++];
+// 	}
+// 	res[j] = '\0';
+// 	if (s1)
+// 		free(s1);
+// 	return (res);
+// }
 
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
+// char	*ft_strcpy(char *dest, char *src)
+// {
+// 	int	i;
 
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
+// 	i = 0;
+// 	while (src[i] != '\0')
+// 	{
+// 		dest[i] = src[i];
+// 		i++;
+// 	}
+// 	dest[i] = '\0';
+// 	return (dest);
+// }
 
-int	save_line(char **line, char **box)
-{
-	char	*position_n;
-	int		result;
+// int	save_line(char **line, char **box)
+// {
+// 	char	*position_n;
+// 	int		result;
 
-	position_n = ft_strchr(*box, '\n');
-	if (position_n)
-	{
-		*position_n = '\0';
-		*line = ft_strdup(*box);
-		position_n++;
-		ft_strcpy(*box, position_n);
-		result = 1;
-	}
-	else
-	{
-		*line = ft_strdup(*box);
-		free(*box);
-		*box = NULL;
-		result = 0;
-	}
-	return (result);
-}
+// 	position_n = ft_strchr(*box, '\n');
+// 	if (position_n)
+// 	{
+// 		*position_n = '\0';
+// 		*line = ft_strdup(*box);
+// 		position_n++;
+// 		ft_strcpy(*box, position_n);
+// 		result = 1;
+// 	}
+// 	else
+// 	{
+// 		*line = ft_strdup(*box);
+// 		free(*box);
+// 		*box = NULL;
+// 		result = 0;
+// 	}
+// 	return (result);
+// }
 
 // int	get_next_line(int fd, char **line)
 // {
@@ -190,7 +190,7 @@ static void	ft_finish(char *tmp, char **line, char c, int i)
 int	ft_exit(char **line)
 {
 	free(*line);
-	return (-1);	
+	return (-1);
 }
 
 static void	ft_fill(char *tmp, char **line, char c, int *i)
