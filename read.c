@@ -143,8 +143,8 @@ void	read_file(char *filename, fdf *data)
 	data->z_matrix = (int **)malloc(sizeof(int *) * data->height);
 	if (!data->z_matrix)
 	{
-		printf("Unable to allocate memory\n");
-		return ;
+		ft_putstr("ERROR: Unable to allocate memory\n");
+		exit(0);
 	}
 	while (i < data->height)
 	{

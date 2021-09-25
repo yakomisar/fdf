@@ -29,6 +29,7 @@ typedef struct s_fdf
 	int	shift_y;
 	int	zoom;
 	int	**z_matrix;
+	int	color;
 	float	angle;
 
 	void	*mlx;
@@ -41,5 +42,6 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data);
 int		get_next_line(int fd, char **line);
 int		ft_atoi(const char *str);
 void	draw_map(fdf *data);
+void	ft_putstr(char *str);
 
 #endif

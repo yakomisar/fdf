@@ -23,6 +23,14 @@ static void	iso(int *x, int *y, int z, float angle)
     *y = -z + (previous_x + previous_y) * sin(angle);
 }
 
+void	get_color(int z1, int z2, fdf *data)
+{
+	if (z1 || z2)
+		data->color = 0xe80c0c;
+	else
+		data->color = 0x00ff00;
+}
+
 void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 {
 	int		delta_x;
@@ -38,6 +46,7 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 
 	z1 = data->z_matrix[y1][x1];
 	z2 = data->z_matrix[y2][x2];
+	get_color(z1, z2, data);
 	x1 *= data->zoom;
 	x2 *= data->zoom;
 	y1 *= data->zoom;
@@ -62,7 +71,7 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 	y_inc = (float)delta_y / (float)step;
 	while (i <= step)
 	{
-		mlx_pixel_put(data->mlx, data->window, (int)x, (int)y, 0x00FF0000);
+		mlx_pixel_put(data->mlx, data->window, (int)x, (int)y, data->color);
 		x = x + x_inc;
 		y = y + y_inc;
 		i++;
