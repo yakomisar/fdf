@@ -12,15 +12,29 @@
 
 #include "fdf.h"
 
-static void	iso(int *x, int *y, int z, float angle)
+// static void	iso(int *x, int *y, int z, float angle)
+// {
+// 	int		previous_x;
+//     int		previous_y;
+	
+// 	previous_x = *x;
+// 	previous_y = *y;
+//     *x = (previous_x - previous_y) * cos(angle);
+//     *y = -z + (previous_x + previous_y) * sin(angle);
+// }
+
+static void	iso(int *x, int *y, int z, fdf *data)
 {
 	int		previous_x;
     int		previous_y;
+	float	first;
+	float	second;
+	float	third;
 	
 	previous_x = *x;
 	previous_y = *y;
-    *x = (previous_x - previous_y) * cos(angle);
-    *y = -z + (previous_x + previous_y) * sin(angle);
+	*x = previous_x * cos(data->my_angle.first) + previous_y * cos(data->my_angle.second) + z * cos(data->my_angle.third);
+    *y = previous_x * sin(data->my_angle.first) + previous_y * sin(data->my_angle.second) - z * sin(data->my_angle.third);
 }
 
 void	get_color(int z1, int z2, fdf *data)
@@ -28,7 +42,7 @@ void	get_color(int z1, int z2, fdf *data)
 	if (z1 || z2)
 		data->color = 0xe80c0c;
 	else
-		data->color = 0x00ff00;
+		data->color = 0xffffff;
 }
 
 void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
@@ -51,8 +65,10 @@ void    dda_line(int x1, int y1, int x2, int y2, fdf *data)
 	x2 *= data->zoom;
 	y1 *= data->zoom;
 	y2 *= data->zoom;
-	iso(&x1, &y1, z1, data->angle);
-	iso(&x2, &y2, z2, data->angle);
+	// iso(&x1, &y1, z1, data->angle);
+	// iso(&x2, &y2, z2, data->angle);
+	iso(&x1, &y1, z1, data);
+	iso(&x2, &y2, z2, data);
 	delta_x = x2 - x1;
 	delta_y = y2 - y1;
 	x1 += data->shift_x;

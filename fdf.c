@@ -51,12 +51,44 @@ void	zoom_window(int key, fdf *data)
 	draw_map(data);
 }
 
+// void	rotate_window(int key, fdf *data)
+// {
+// 	float	pi;
+
+// 	pi = M_PI;
+// 	if (key == 18)
+// 	{
+// 		data->my_angle.first -= pi/12;
+// 		data->my_angle.second += pi/12;
+// 		data->my_angle.third = 0;
+// 	}
+// 	if (key == 19)
+// 	{
+// 		data->my_angle.first += pi/12;
+// 		data->my_angle.second -= pi/12;
+// 		//data->third += 0.1;
+// 	}
+// 	mlx_clear_window(data->mlx, data->window);
+// 	draw_map(data);
+// }
+
 void	rotate_window(int key, fdf *data)
 {
+	float	pi;
+
+	pi = M_PI;
 	if (key == 18)
-		data->angle -= 0.1;
+	{
+		data->my_angle.first = 0;
+		data->my_angle.second = pi/2;
+		data->my_angle.third = 0;
+	}
 	if (key == 19)
-		data->angle += 0.1;
+	{
+		data->my_angle.first = 0;
+		data->my_angle.second = pi/2;
+		data->my_angle.third = 0;
+	}
 	mlx_clear_window(data->mlx, data->window);
 	draw_map(data);
 }
@@ -70,6 +102,7 @@ int	window_action(int keycode, fdf *data)
 	if (keycode == 53)
 	{
 		mlx_destroy_window(data->mlx, data->window);
+		// dynamic_array_free(data, data->width);
 		exit(0);
 	}
 	if (keycode == 126 || keycode == 125 || keycode == 124 || keycode == 123)
@@ -91,10 +124,16 @@ void	ft_putstr(char *str)
 
 void	data_init(fdf *data, char *filename)
 {
+	float	pi;
+
+	pi = M_PI;
 	data->shift_x = 100;
 	data->shift_y = 100;
 	data->zoom = 5;
-	data->angle = 0.523599;
+	data->my_angle.first = pi / 6;
+	data->my_angle.second = (5 * pi) / 6;
+	data->my_angle.third = pi / 2;
+	ft_putstr("I am here");
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, 1000, 1000, filename);
 }

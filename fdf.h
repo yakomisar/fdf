@@ -21,6 +21,13 @@
 # include <math.h>
 # include "minilibx_macos/mlx.h"
 
+typedef struct s_angle
+{
+	float	first;
+	float	second;
+	float	third;
+}   angle;
+
 typedef struct s_fdf
 {
 	int	width;
@@ -30,7 +37,7 @@ typedef struct s_fdf
 	int	zoom;
 	int	**z_matrix;
 	int	color;
-	float	angle;
+	angle	my_angle;
 
 	void	*mlx;
 	void	*window;
