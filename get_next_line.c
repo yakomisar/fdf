@@ -54,7 +54,7 @@ static int	ft_exit(char **line)
 	return (-1);
 }
 
-static void	ft_fill(char *tmp, char **line, char c, int *i)
+static void	ft_fill(char *tmp, char **line, int *i)
 {
 	tmp[*i] = (*line)[*i];
 	(*i)++;
@@ -81,7 +81,7 @@ int	get_next_line(int fd, char **line)
 			ft_exit(line);
 		i = 0;
 		while (i < len - 2)
-			ft_fill(tmp, line, c, &i);
+			ft_fill(tmp, line, &i);
 		ft_finish(tmp, line, c, i);
 	}
 	return (r);

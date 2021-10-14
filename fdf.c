@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
+#include <stdio.h>
 
 // void    dynamic_array_free(fdf *data, int n)
 // {
@@ -51,27 +52,6 @@ void	zoom_window(int key, fdf *data)
 	draw_map(data);
 }
 
-// void	rotate_window(int key, fdf *data)
-// {
-// 	float	pi;
-
-// 	pi = M_PI;
-// 	if (key == 18)
-// 	{
-// 		data->my_angle.first -= pi/12;
-// 		data->my_angle.second += pi/12;
-// 		data->my_angle.third = 0;
-// 	}
-// 	if (key == 19)
-// 	{
-// 		data->my_angle.first += pi/12;
-// 		data->my_angle.second -= pi/12;
-// 		//data->third += 0.1;
-// 	}
-// 	mlx_clear_window(data->mlx, data->window);
-// 	draw_map(data);
-// }
-
 void	rotate_window(int key, fdf *data)
 {
 	float	pi;
@@ -79,23 +59,51 @@ void	rotate_window(int key, fdf *data)
 	pi = M_PI;
 	if (key == 18)
 	{
-		data->my_angle.first = 0;
-		data->my_angle.second = pi/2;
+		data->my_angle.first -= pi/12;
+		data->my_angle.second += pi/12;
 		data->my_angle.third = 0;
 	}
 	if (key == 19)
 	{
-		data->my_angle.first = 0;
-		data->my_angle.second = pi/2;
-		data->my_angle.third = 0;
+		data->my_angle.first += pi/12;
+		data->my_angle.second -= pi/12;
+		//data->third += 0.1;
+	}
+	if (key == 20)
+	{
+		data->my_angle.first = pi / 6;
+		data->my_angle.second = (5 * pi) / 6;
+		data->my_angle.third = pi / 2;
 	}
 	mlx_clear_window(data->mlx, data->window);
 	draw_map(data);
 }
 
+// void	rotate_window(int key, fdf *data)
+// {
+// 	float	pi;
+
+// 	pi = M_PI;
+// 	if (key == 18)
+// 	{
+// 		data->my_angle.first = 0;
+// 		data->my_angle.second = pi/2;
+// 		data->my_angle.third = 0;
+// 	}
+// 	if (key == 19)
+// 	{
+// 		data->my_angle.first = 0;
+// 		data->my_angle.second = pi/2;
+// 		data->my_angle.third = 0;
+// 	}
+// 	mlx_clear_window(data->mlx, data->window);
+// 	draw_map(data);
+// }
+
 int	window_action(int keycode, fdf *data)
 {
-	if (keycode == 18 || keycode == 19)
+	//printf("keycode: %d\n", keycode);
+	if (keycode == 18 || keycode == 19 || keycode == 20)
 		rotate_window(keycode, data);
 	if (keycode == 27 || keycode == 24)
 		zoom_window(keycode, data);
@@ -133,7 +141,6 @@ void	data_init(fdf *data, char *filename)
 	data->my_angle.first = pi / 6;
 	data->my_angle.second = (5 * pi) / 6;
 	data->my_angle.third = pi / 2;
-	ft_putstr("I am here");
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, 1000, 1000, filename);
 }
