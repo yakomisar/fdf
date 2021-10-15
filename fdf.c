@@ -6,7 +6,7 @@
 /*   By: jmacmill <jmacmill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 19:37:59 by jmacmill          #+#    #+#             */
-/*   Updated: 2021/09/24 19:55:17 by jmacmill         ###   ########.fr       */
+/*   Updated: 2021/10/15 19:36:43 by jmacmill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ void	rotate_window(int key, fdf *data)
 	pi = M_PI;
 	if (key == 18)
 	{
-		data->my_angle.first -= pi/12;
-		data->my_angle.second += pi/12;
+		data->my_angle.first -= pi / 12;
+		data->my_angle.second += pi / 12;
 		data->my_angle.third = 0;
 	}
 	if (key == 19)
 	{
-		data->my_angle.first += pi/12;
-		data->my_angle.second -= pi/12;
+		data->my_angle.first += pi / 12;
+		data->my_angle.second -= pi / 12;
 		//data->third += 0.1;
 	}
 	if (key == 20)
@@ -102,7 +102,6 @@ void	rotate_window(int key, fdf *data)
 
 int	window_action(int keycode, fdf *data)
 {
-	//printf("keycode: %d\n", keycode);
 	if (keycode == 18 || keycode == 19 || keycode == 20)
 		rotate_window(keycode, data);
 	if (keycode == 27 || keycode == 24)
@@ -110,7 +109,6 @@ int	window_action(int keycode, fdf *data)
 	if (keycode == 53)
 	{
 		mlx_destroy_window(data->mlx, data->window);
-		// dynamic_array_free(data, data->width);
 		exit(0);
 	}
 	if (keycode == 126 || keycode == 125 || keycode == 124 || keycode == 123)
@@ -143,6 +141,10 @@ void	data_init(fdf *data, char *filename)
 	data->my_angle.third = pi / 2;
 	data->mlx = mlx_init();
 	data->window = mlx_new_window(data->mlx, 1000, 1000, filename);
+	data->x1 = 0;
+	data->x2 = 0;
+	data->y1 = 0;
+	data->y2 = 0;
 }
 
 int	main(int argc, char **argv)
@@ -165,7 +167,7 @@ int	main(int argc, char **argv)
 	read_file(argv[1], data);
 	data_init(data, argv[1]);
 	draw_map(data);
-	mlx_hook(data->window, 2, 1L<<0, window_action, data);
+	mlx_hook(data->window, 2, 1L << 0, window_action, data);
 	mlx_loop(data->mlx);
 	return (0);
 }
