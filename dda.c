@@ -12,26 +12,11 @@
 
 #include "fdf.h"
 
-static void	iso(int *x, int *y, int z, fdf *data)
+void	get_color(fdf *data)
 {
-	int	previous_x;
-	int	previous_y;
-
-	*x *= data->zoom;
-	*y *= data->zoom;
-	previous_x = *x;
-	previous_y = *y;
-	*x = previous_x * cos(data->my_angle.first);
-	*x += (previous_y * cos(data->my_angle.second));
-	*x += (z * cos(data->my_angle.third));
-	*y = previous_x * sin(data->my_angle.first);
-	*y += (previous_y * sin(data->my_angle.second));
-	*y += (-z * sin(data->my_angle.third));
-}
-
-void	get_color(int z1, int z2, fdf *data)
-{
-	if (z1 || z2)
+	data->z1 = data->z_matrix[data->y1][data->x1];
+	data->z2 = data->z_matrix[data->y2][data->x2];
+	if (data->z1 || data->z2)
 		data->color = 0xe80c0c;
 	else
 		data->color = 0xffffff;
@@ -48,7 +33,41 @@ int	get_step(int delta_x, int delta_y)
 	return (step);
 }
 
-void	dda_line(int x1, int y1, int x2, int y2, fdf *data)
+void	iso_one(fdf *data)
+{
+	int	previous_x;
+	int	previous_y;
+
+	data->x1 *= data->zoom;
+	data->y1 *= data->zoom;
+	previous_x = data->x1;
+	previous_y = data->y1;
+	data->x1 = previous_x * cos(data->my_angle.first);
+	data->x1 += (previous_y * cos(data->my_angle.second));
+	data->x1 += (data->z1 * cos(data->my_angle.third));
+	data->y1 = previous_x * sin(data->my_angle.first);
+	data->y1 += (previous_y * sin(data->my_angle.second));
+	data->y1 += (-(data->z1) * sin(data->my_angle.third));
+}
+
+void	iso_sec(fdf *data)
+{
+	int	previous_x;
+	int	previous_y;
+
+	data->x2 *= data->zoom;
+	data->y2 *= data->zoom;
+	previous_x = data->x2;
+	previous_y = data->y2;
+	data->x2 = previous_x * cos(data->my_angle.first);
+	data->x2 += (previous_y * cos(data->my_angle.second));
+	data->x2 += (data->z2 * cos(data->my_angle.third));
+	data->y2 = previous_x * sin(data->my_angle.first);
+	data->y2 += (previous_y * sin(data->my_angle.second));
+	data->y2 += (-(data->z2) * sin(data->my_angle.third));
+}
+
+void	ft_line(fdf *data)
 {
 	int		delta_x;
 	int		delta_y;
@@ -58,23 +77,14 @@ void	dda_line(int x1, int y1, int x2, int y2, fdf *data)
 	int		i;
 	float	x;
 	float	y;
-	int		z1;
-	int		z2;
 
-	z1 = data->z_matrix[y1][x1];
-	z2 = data->z_matrix[y2][x2];
-	get_color(z1, z2, data);
-	iso(&x1, &y1, z1, data);
-	iso(&x2, &y2, z2, data);
-	delta_x = x2 - x1;
-	delta_y = y2 - y1;
-	x1 += data->shift_x;
-	x2 += data->shift_x;
-	y1 += data->shift_y;
-	y2 += data->shift_y;
+	delta_x = data->x2 - data->x1;
+	delta_y = data->y2 - data->y1;
+	data->x1 += data->shift_x;
+	data->y1 += data->shift_y;
 	i = 0;
-	x = x1;
-	y = y1;
+	x = data->x1;
+	y = data->y1;
 	step = get_step(delta_x, delta_y);
 	x_inc = (float)delta_x / (float)step;
 	y_inc = (float)delta_y / (float)step;
@@ -87,44 +97,29 @@ void	dda_line(int x1, int y1, int x2, int y2, fdf *data)
 	}
 }
 
-// void	dda_line(int x1, int y1, int x2, int y2, fdf *data)
-// {
-// 	int		delta_x;
-// 	int		delta_y;
-// 	float	x_inc;
-// 	float	y_inc;
-// 	int		step;
-// 	int		i;
-// 	float	x;
-// 	float	y;
-// 	int		z1;
-// 	int		z2;
+void	dda_line(fdf *data)
+{
+	get_color(data);
+	iso_one(data);
+	iso_sec(data);
+	ft_line(data);
+}
 
-// 	z1 = data->z_matrix[y1][x1];
-// 	z2 = data->z_matrix[y2][x2];
-// 	get_color(z1, z2, data);
-// 	iso(&x1, &y1, z1, data);
-// 	iso(&x2, &y2, z2, data);
-// 	delta_x = x2 - x1;
-// 	delta_y = y2 - y1;
-// 	x1 += data->shift_x;
-// 	x2 += data->shift_x;
-// 	y1 += data->shift_y;
-// 	y2 += data->shift_y;
-// 	i = 0;
-// 	x = x1;
-// 	y = y1;
-// 	step = get_step(delta_x, delta_y);
-// 	x_inc = (float)delta_x / (float)step;
-// 	y_inc = (float)delta_y / (float)step;
-// 	while (i <= step)
-// 	{
-// 		mlx_pixel_put(data->mlx, data->window, (int)x, (int)y, data->color);
-// 		x = x + x_inc;
-// 		y = y + y_inc;
-// 		i++;
-// 	}
-// }
+void	xy_init(fdf *data, int x, int y, char c)
+{
+	data->x1 = x;
+	data->y1 = y;
+	if (c == 'x')
+	{	
+		data->x2 = x + 1;
+		data->y2 = y;
+	}
+	else
+	{
+		data->x2 = x;
+		data->y2 = y + 1;
+	}
+}
 
 void	draw_map(fdf *data)
 {
@@ -137,17 +132,15 @@ void	draw_map(fdf *data)
 		x = 0;
 		while (x < data->width)
 		{
-			data->x1 = x;
-			data->y1 = y;
 			if (x < data->width - 1)
 			{
-				data->x2 = x + 1;
-				dda_line(data->x1, data->y1, data->x2, y, data);
+				xy_init(data, x, y, 'x');
+				dda_line(data);
 			}
 			if (y < data->height - 1)
 			{
-				data->y2 = y + 1;
-				dda_line(data->x1, data->y1, x, data->y2, data);
+				xy_init(data, x, y, 'y');
+				dda_line(data);
 			}
 			x++;
 		}

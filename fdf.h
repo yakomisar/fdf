@@ -41,6 +41,8 @@ typedef struct s_fdf
 	int	x2;
 	int	y1;
 	int	y2;
+	int	z1;
+	int	z2;
 	angle	my_angle;
 
 	void	*mlx;
@@ -49,7 +51,8 @@ typedef struct s_fdf
 }   fdf;
 
 void	read_file(char *filename, fdf *data);
-void	dda_line(int x1, int y1, int x2, int y2, fdf *data);
+// void	dda_line(int x1, int y1, int x2, int y2, fdf *data);
+void	dda_line(fdf *data);
 int		get_next_line(int fd, char **line);
 int		ft_atoi(const char *str);
 void	draw_map(fdf *data);
