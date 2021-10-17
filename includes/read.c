@@ -85,12 +85,6 @@ int	get_height(char *filename)
 
 	height = 0;
 	fd = open(filename, O_RDONLY);
-	if (!fd)
-	{
-		printf("Eroorrsr");
-		exit(1);
-	}
-	
 	while (get_next_line(fd, &line) > 0)
 	{
 		height++;

@@ -154,6 +154,7 @@ void	data_init(fdf *data, char *filename)
 
 int	main(int argc, char **argv)
 {
+	int	check;
     fdf	*data;
 
 	if (argc != 2)
@@ -163,12 +164,13 @@ int	main(int argc, char **argv)
 		ft_putstr("./[Program name] [path of the map]");
 		return (1);
 	}
-    data = (fdf*)malloc(sizeof(fdf));
-    if(!data)
+	check = open(argv[1], O_RDONLY);
+	if (check == -1)
 	{
-		ft_putstr("Error!!");
-		exit(0);
+		ft_putstr("Unable to open file.\n");
+		return (1);
 	}
+    data = (fdf*)malloc(sizeof(fdf));
 	read_file(argv[1], data);
 	data_init(data, argv[1]);
 	draw_map(data);
