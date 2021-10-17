@@ -85,11 +85,18 @@ int	get_height(char *filename)
 
 	height = 0;
 	fd = open(filename, O_RDONLY);
+	if (!fd)
+	{
+		printf("Eroorrsr");
+		exit(1);
+	}
+	
 	while (get_next_line(fd, &line) > 0)
 	{
 		height++;
 		free(line);
 	}
+	free(line);
 	close(fd);
 	return (height);
 }
@@ -107,6 +114,7 @@ int	get_width(char *filename)
 		width = ft_count(line, ' ');
 		free(line);
 	}
+	free(line);
 	close(fd);
 	return (width);
 }
@@ -137,11 +145,6 @@ void	read_file(char *filename, fdf *data)
 	data->width = get_width(filename);
 	i = 0;
 	data->z_matrix = (int **)malloc(sizeof(int *) * data->height);
-	if (!data->z_matrix)
-	{
-		ft_putstr("ERROR: Unable to allocate memory\n");
-		exit(0);
-	}
 	while (i < data->height)
 	{
 		data->z_matrix[i] = (int *)malloc(sizeof(int) * data->width);

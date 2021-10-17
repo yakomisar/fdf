@@ -24,10 +24,9 @@ void    dynamic_array_free(fdf *data)
         i++;
     }
 	free(data->z_matrix);
-	//mlx_destroy_image(data->mlx, data->window);
-	mlx_destroy_window(data->mlx, data->window);
-	free(data);
-	data = NULL;
+	mlx_destroy_image(data->mlx, data->window);
+	if (data)
+		free(data);
 }
 
 void	shift_window(int key, fdf *data)
@@ -73,7 +72,28 @@ void	rotate_window(int key, fdf *data)
 		data->my_angle.second -= pi / 12;
 		//data->third += 0.1;
 	}
+	mlx_clear_window(data->mlx, data->window);
+	draw_map(data);
+}
+
+void	change_projection(int key, fdf *data)
+{
+	float	pi;
+
+	pi = M_PI;
 	if (key == 20)
+	{
+		data->my_angle.first = 0;
+		data->my_angle.second = pi/2;
+		data->my_angle.third = 0;
+	}
+	if (key == 21)
+	{
+		data->my_angle.first = 0;
+		data->my_angle.second = 0;
+		data->my_angle.third = pi/2;
+	}
+	if (key == 23)
 	{
 		data->my_angle.first = pi / 6;
 		data->my_angle.second = (5 * pi) / 6;
@@ -83,37 +103,18 @@ void	rotate_window(int key, fdf *data)
 	draw_map(data);
 }
 
-// void	rotate_window(int key, fdf *data)
-// {
-// 	float	pi;
-
-// 	pi = M_PI;
-// 	if (key == 18)
-// 	{
-// 		data->my_angle.first = 0;
-// 		data->my_angle.second = pi/2;
-// 		data->my_angle.third = 0;
-// 	}
-// 	if (key == 19)
-// 	{
-// 		data->my_angle.first = 0;
-// 		data->my_angle.second = pi/2;
-// 		data->my_angle.third = 0;
-// 	}
-// 	mlx_clear_window(data->mlx, data->window);
-// 	draw_map(data);
-// }
-
 int	window_action(int keycode, fdf *data)
 {
-	if (keycode == 18 || keycode == 19 || keycode == 20)
+	if (keycode == 18 || keycode == 19)
 		rotate_window(keycode, data);
+	if (keycode == 20 || keycode == 21 || keycode == 23)
+		change_projection(keycode, data);
 	if (keycode == 27 || keycode == 24)
 		zoom_window(keycode, data);
 	if (keycode == 53)
 	{
 		dynamic_array_free(data);
-		exit(1);
+		exit(0);
 	}
 	if (keycode == 126 || keycode == 125 || keycode == 124 || keycode == 123)
 		shift_window(keycode, data);
@@ -144,7 +145,7 @@ void	data_init(fdf *data, char *filename)
 	data->my_angle.second = (5 * pi) / 6;
 	data->my_angle.third = pi / 2;
 	data->mlx = mlx_init();
-	data->window = mlx_new_window(data->mlx, 1000, 1000, filename);
+	data->window = mlx_new_window(data->mlx, 1500, 1500, filename);
 	data->x1 = 0;
 	data->x2 = 0;
 	data->y1 = 0;
@@ -157,7 +158,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putstr("ERROR: Incorrect number of arguments..\n");
+		ft_putstr("ERROR: Incorrect number of arguments.\n");
 		ft_putstr("HINT: Please use the following format: ");
 		ft_putstr("./[Program name] [path of the map]");
 		return (1);
@@ -173,7 +174,5 @@ int	main(int argc, char **argv)
 	draw_map(data);
 	mlx_hook(data->window, 2, 1L<<0, window_action, data);
 	mlx_loop(data->mlx);
-	//mlx_destroy_window(data->mlx, data->window);
-	//dynamic_array_free(data);
 	return (0);
 }

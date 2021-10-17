@@ -60,5 +60,6 @@ void	draw_map(fdf *data);
 void	ft_putstr(char *str);
 void	iso_one(fdf *data);
 void	iso_sec(fdf *data);
+void    dynamic_array_free(fdf *data);
 
 #endif
