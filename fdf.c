@@ -13,18 +13,22 @@
 #include "fdf.h"
 #include <stdio.h>
 
-// void    dynamic_array_free(fdf *data, int n)
-// {
-//     int i;
+void    dynamic_array_free(fdf *data)
+{
+    int i;
 
-//     i = 0;
-//     while (i < n)
-//     {
-//         free(data->z_matrix[i]);
-//         i++;
-//     }
-// 	free(data);
-// }
+    i = 0;
+    while (i < data->height)
+    {
+        free(data->z_matrix[i]);
+        i++;
+    }
+	free(data->z_matrix);
+	//mlx_destroy_image(data->mlx, data->window);
+	mlx_destroy_window(data->mlx, data->window);
+	free(data);
+	data = NULL;
+}
 
 void	shift_window(int key, fdf *data)
 {
@@ -108,8 +112,8 @@ int	window_action(int keycode, fdf *data)
 		zoom_window(keycode, data);
 	if (keycode == 53)
 	{
-		mlx_destroy_window(data->mlx, data->window);
-		exit(0);
+		dynamic_array_free(data);
+		exit(1);
 	}
 	if (keycode == 126 || keycode == 125 || keycode == 124 || keycode == 123)
 		shift_window(keycode, data);
@@ -167,7 +171,9 @@ int	main(int argc, char **argv)
 	read_file(argv[1], data);
 	data_init(data, argv[1]);
 	draw_map(data);
-	mlx_hook(data->window, 2, 1L << 0, window_action, data);
+	mlx_hook(data->window, 2, 1L<<0, window_action, data);
 	mlx_loop(data->mlx);
+	//mlx_destroy_window(data->mlx, data->window);
+	//dynamic_array_free(data);
 	return (0);
 }

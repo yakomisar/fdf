@@ -51,11 +51,14 @@ typedef struct s_fdf
 }   fdf;
 
 void	read_file(char *filename, fdf *data);
-// void	dda_line(int x1, int y1, int x2, int y2, fdf *data);
 void	dda_line(fdf *data);
+void	get_color(fdf *data);
 int		get_next_line(int fd, char **line);
 int		ft_atoi(const char *str);
+int		get_step(int delta_x, int delta_y);
 void	draw_map(fdf *data);
 void	ft_putstr(char *str);
+void	iso_one(fdf *data);
+void	iso_sec(fdf *data);
 
 #endif

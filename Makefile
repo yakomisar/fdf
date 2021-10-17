@@ -2,13 +2,14 @@ TARGET		= fdf
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-FLAGS_MAC = -lmlx -framework OpenGL -framework AppKit
+FLAGS_MAC = -framework OpenGL -framework AppKit
 RM = rm -f
 
 SRC_S = fdf.c \
-		get_next_line.c \
-		read.c \
-		dda.c
+		includes/gnl.c \
+		includes/read.c \
+		includes/dda.c \
+		includes/iso.c
 
 MLX		=	minilibx_macos/libmlx.a
 
